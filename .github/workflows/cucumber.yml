@@ -43,6 +43,10 @@ jobs:
     - name: Generate Allure Report
       run: ./gradlew allureReport
 
+    # Step 6: Install Puppeteer
+    - name: Install Puppeteer
+      run: npm install puppeteer
+
     # Step 6: Take Screenshot of Summary Page (Optional)
     - name: Take screenshot of Allure Summary
       run: |
