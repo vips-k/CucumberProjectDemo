@@ -43,6 +43,10 @@ jobs:
     - name: Generate Allure Report
       run: ./gradlew allureReport
 
+    # Step 6: Install Node.js dependencies (Fix for xml2js)
+    - name: Install Node.js dependencies
+      run: npm install xml2js
+
     # Step 6: Parse JUnit XML and Add PR Comment
     - name: Parse JUnit XML and Comment on PR
       if: always() # Ensure this runs even if tests fail
