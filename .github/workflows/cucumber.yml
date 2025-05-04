@@ -77,8 +77,8 @@ jobs:
           
               const prNumber = context.payload.pull_request.number;
               const commentBody = `
-  ---
-  ---
+          ---
+              ---
               
               ## 🎯 **Test Results Summary**
               
