@@ -36,9 +36,11 @@ jobs:
       run: ./gradlew cucumberCli
 
     - name: List report directory contents (debugging)
+      if: always()
       run: ls -R build/allure/commandline/plugins/behaviors-plugin/
 
     - name: Upload artifact
+      if: always()
       uses: actions/upload-pages-artifact@v3
       with:
         name: github-pages
@@ -46,6 +48,7 @@ jobs:
 
     # Step 6: Install Node.js dependencies (Fix for xml2js)
     - name: Install Node.js dependencies
+      if: always()
       run: npm install xml2js
 
     # Step 6: Parse JUnit XML and Add PR Comment
