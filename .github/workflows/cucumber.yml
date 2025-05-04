@@ -64,14 +64,16 @@ jobs:
             parser.parseStringPromise(xmlData).then(result => {
               console.log('Parsed Result:', result); // Debugging: Log parsed result
           
-              if (!result.testsuites || !result.testsuites.testsuite) {
-                throw new Error('Invalid XML structure: Missing "testsuites" or "testsuite"');
+              // Check if the root is 'testsuite' instead of 'testsuites'
+              const testsuite = result.testsuite || (result.testsuites && result.testsuites.testsuite[0]);
+          
+              if (!testsuite) {
+                throw new Error('Invalid XML structure: Missing "testsuite"');
               }
           
-              const testSuite = result.testsuites.testsuite[0];
-              const totalTests = testSuite.$.tests;
-              const failures = testSuite.$.failures;
-              const time = testSuite.$.time;
+              const totalTests = testsuite.$.tests;
+              const failures = testsuite.$.failures;
+              const time = testsuite.$.time;
           
               const prNumber = context.payload.pull_request.number;
               const commentBody = `
