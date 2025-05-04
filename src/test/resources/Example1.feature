@@ -7,7 +7,7 @@ Feature: Practical of cucumber keywords
 
   Scenario: Verify different types of data tables of cucumber - single field
     Given There is a step with one parameter parameter1
-    When There is a step with datatable having only one column without header1
+    When There is a step with datatable having only one column without header
     | onecolumn_withoutHeader |
 
   Rule: DataTable functionality for multi value
