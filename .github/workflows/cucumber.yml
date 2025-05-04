@@ -145,6 +145,7 @@ jobs:
 
     steps:
     - name: Deploy to GitHub Pages
+      if: always()
       uses: actions/deploy-pages@v4
       with:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
