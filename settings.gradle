@@ -1,2 +1,1 @@
 rootProject.name = 'CucumberProjectDemo'
-CucumberProjectDemo.gradle.parallel=true
