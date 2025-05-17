@@ -69,6 +69,14 @@ tasks.register("cucumberCli") {
     finalizedBy allureReport
 }
 
+task cucumberCli1(type: Exec) {
+    commandLine './gradlew', 'cucumberCli'
+}
+
+task cucumberCli2(type: Exec) {
+    commandLine './gradlew', 'cucumberCli'
+}
+
 tasks.register('deleteOldFile') {
     doLast {
         def file = file('build/allure/commandline/plugins/behaviors-plugin/behaviors-plugin-2.30.0.jar')
