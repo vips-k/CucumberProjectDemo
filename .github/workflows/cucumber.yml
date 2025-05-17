@@ -33,7 +33,7 @@ jobs:
       run: ./gradlew dependencies
 
     - name: Run Cucumber tests
-      run: ./gradlew cucumberCli cucumberCli --parallel
+      run: ./gradlew cucumberCli1 cucumberCli2 --parallel
 
     - name: List report directory contents (debugging)
       if: always()
