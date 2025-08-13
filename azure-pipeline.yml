@@ -23,12 +23,11 @@ stages:
     - checkout: self
       fetchDepth: 0
 
-    - task: UseJavaVersion@0
+    - task: JavaToolInstaller@0
       displayName: 'Set up JDK 11'
       inputs:
         versionSpec: '11'
-        jdkArchitectureOption: x64
-        jdkSourceOption: 'PreInstalled'
+        jdkArchitectureOption: 'x64'
 
     - script: ./gradlew dependencies
       displayName: 'Install dependencies'
