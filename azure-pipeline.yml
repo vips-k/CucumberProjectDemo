@@ -1,0 +1,76 @@
+trigger:
+  - main
+  - master
+
+pr:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  JAVA_HOME: '/usr/lib/jvm/java-11-openjdk-amd64'
+
+stages:
+- stage: Test
+  displayName: 'Run Cucumber Tests and Publish Allure Report'
+  jobs:
+  - job: runCucumber
+    displayName: 'Run Cucumber and Publish Allure'
+    steps:
+    - checkout: self
+      fetchDepth: 0
+
+    - task: UseJavaVersion@0
+      displayName: 'Set up JDK 11'
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: x64
+        jdkSourceOption: 'PreInstalled'
+
+    - script: ./gradlew dependencies
+      displayName: 'Install dependencies'
+
+    - script: ./gradlew cucumberCli
+      displayName: 'Run Cucumber Tests'
+      # You can pass extra environment variables here if needed.
+      # env:
+      #   TEST_CASES: $(testCases)
+
+    - script: |
+        ls -R build/allure/commandline/plugins/behaviors-plugin/
+      displayName: 'List report directory contents (debugging)'
+      continueOnError: true
+
+    - task: PublishAllureReport@1
+      displayName: "Publish Allure Report"
+      inputs:
+        testResultsDir: "build/allure-results"
+        reportName: "Main Test Report"
+
+    # Optional: Upload Allure static report as build artifact for later use
+    - publish: build/reports/allure-report/allureReport/
+      displayName: 'Publish Allure HTML Report Artifact'
+      artifact: allure-html-report
+
+    # Optional: Parse JUnit XML and add PR comment (requires extension or custom script)
+    # See: https://marketplace.visualstudio.com/items?itemName=richardfennellBM.BM-VSTS-PullRequestComment
+    # Or create your own script + PAT to comment on PRs using Azure DevOps REST API
+
+- stage: Deploy
+  displayName: 'Deploy to GitHub Pages'
+  dependsOn: Test
+  condition: always()
+  jobs:
+  - job: deployPages
+    displayName: 'Deploy Allure Report to GitHub Pages'
+    steps:
+    - checkout: self
+
+    # Example script to deploy static files, customize as needed.
+    - script: |
+        echo "Deploy step: Upload Allure HTML report to GitHub Pages"
+        # Replace with your mechanism, e.g., gh-pages branch push, or use Azure DevOps pipeline extension
+      displayName: 'Deploy Allure HTML Report'
