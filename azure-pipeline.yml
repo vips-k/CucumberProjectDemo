@@ -69,7 +69,15 @@ stages:
     - checkout: self
 
     # Example script to deploy static files, customize as needed.
-    - script: |
-        echo "Deploy step: Upload Allure HTML report to GitHub Pages"
-        # Replace with your mechanism, e.g., gh-pages branch push, or use Azure DevOps pipeline extension
-      displayName: 'Deploy Allure HTML Report'
+- script: |
+    git config --global user.email "bot@example.com"
+    git config --global user.name "AzureDeployBot"
+    git clone --branch=gh-pages https://github.com/$(Build.Repository.Name).git out || mkdir out
+    cp -r build/reports/allure-report/allureReport/* out/
+    cd out
+    git add .
+    git commit -m "Update Allure report [skip ci]" || echo "No changes to commit"
+    git push https://$(GH_PAGES_TOKEN)@github.com/$(Build.Repository.Name).git gh-pages
+  displayName: 'Deploy Allure Report to GitHub Pages'
+  env:
+    GH_PAGES_TOKEN: $(GH_PAGES_TOKEN)
