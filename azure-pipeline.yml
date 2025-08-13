@@ -28,6 +28,7 @@ stages:
       inputs:
         versionSpec: '11'
         jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled' # <-- This sets up from the built-in tool cache
 
     - script: ./gradlew dependencies
       displayName: 'Install dependencies'
