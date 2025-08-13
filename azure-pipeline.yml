@@ -69,6 +69,7 @@ stages:
     - checkout: self
 
     # Example script to deploy static files, customize as needed.
+steps:
 - script: |
     git config --global user.email "bot@example.com"
     git config --global user.name "AzureDeployBot"
