@@ -135,18 +135,3 @@ jobs:
             console.error('Error reading or parsing JUnit XML:', err);
           }
 
-  deploy:
-    runs-on: ubuntu-latest
-    if: always()
-    needs: run-cucumber
-
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-    - name: Deploy to GitHub Pages
-      if: always()
-      uses: actions/deploy-pages@v4
-      with:
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
